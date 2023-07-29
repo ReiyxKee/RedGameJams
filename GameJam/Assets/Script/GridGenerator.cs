@@ -33,6 +33,7 @@ public class GridGenerator : MonoBehaviour
     protected int gridBorder = 0;
     [SerializeField] private GameObject[,] gridArrays = new GameObject[9,18] { { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null } };
     [SerializeField] List<GameObject> Generated = new List<GameObject>();
+    [SerializeField] Node[,] nodeArray = new Node[gridSize_x, gridSize_y];
 
     public bool GetGenerateGrid() 
     {
@@ -97,25 +98,21 @@ public class GridGenerator : MonoBehaviour
             {
                 if ( i - 1 >= 0)
                 {
-                    Debug.Log("Add Neightbour");
                     gridArrays[i,j].GetComponent<Node>().AddNeightbour(gridArrays[i-1,j].GetComponent<Node>());
                 }
 
                 if (i + 1 < gridSize_x)
                 {
-                    Debug.Log("Add Neightbour");
                     gridArrays[i,j].GetComponent<Node>().AddNeightbour(gridArrays[i + 1,j].GetComponent<Node>());
                 }
 
                 if (j - 1 >= 0)
                 {
-                    Debug.Log("Add Neightbour");
                     gridArrays[i,j].GetComponent<Node>().AddNeightbour(gridArrays[i,j - 1].GetComponent<Node>());
                 }
 
                 if (j + 1 < gridSize_y)
                 {
-                    Debug.Log("Add Neightbour");
                     gridArrays[i,j].GetComponent<Node>().AddNeightbour(gridArrays[i,j + 1].GetComponent<Node>());
                 }
             }
@@ -126,7 +123,6 @@ public class GridGenerator : MonoBehaviour
     public Node[,] GridArray
     {
         get {
-            Node[,] nodeArray = new Node[gridSize_x, gridSize_y];
 
 
             for (int i = 0; i < gridSize_x; i++)
@@ -137,6 +133,7 @@ public class GridGenerator : MonoBehaviour
                 }
             }
            
+            
             return nodeArray;
         }
     }
