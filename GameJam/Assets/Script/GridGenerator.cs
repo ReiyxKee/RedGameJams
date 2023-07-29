@@ -33,6 +33,7 @@ public class GridGenerator : MonoBehaviour
             {
                 Vector2 localLocation = new Vector2(i * gridGap,j * gridGap);
                 GameObject _unit = Instantiate(unitGrid);
+                _unit.transform.parent = this.transform;
                 _unit.transform.localPosition = localLocation;
             }
         }

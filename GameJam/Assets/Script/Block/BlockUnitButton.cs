@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class GridButton : MonoBehaviour
+public class BlockUnitButton : MonoBehaviour
 {
     [SerializeField] private Button button;
     [SerializeField] private bool isToggled = false;

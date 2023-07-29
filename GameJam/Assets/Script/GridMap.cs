@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class GridMap : MonoBehaviour
 {
+
+    //map
+
+    //collision placeholder
+    //on collide enter
+    //show when its touching
+    //when placed
+
+
     // Start is called before the first frame update
     void Start()
     {
