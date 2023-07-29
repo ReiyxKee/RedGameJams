@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SelectionPlaceholder : MonoBehaviour
 {
+    [SerializeField] private GameObject currentBlock;
     [SerializeField] private bool blockGenerated;
     [SerializeField] private List<GameObject> blockSeries;
 
@@ -19,7 +20,16 @@ public class SelectionPlaceholder : MonoBehaviour
         {
             GenerateRandomBlock();
 
+            blockGenerated = true;
+        }
+
+        Debug.Log(DragAndDrop.Instance.IsPlaced());
+
+        if (DragAndDrop.Instance.IsPlaced())
+        {
             blockGenerated = false;
+            SelectionManager.Instance.AddAttempt();
+            DragAndDrop.Instance.SetPlaced(false);
         }
     }
 
@@ -29,6 +39,6 @@ public class SelectionPlaceholder : MonoBehaviour
 
         GameObject newBlock = Instantiate(blockSeries[rand]);
         newBlock.transform.position = this.transform.position;
-
+        currentBlock = newBlock;
     }
 }

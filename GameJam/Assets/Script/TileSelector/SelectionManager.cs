@@ -4,6 +4,30 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
+    private static SelectionManager _instance = null;
+    private SelectionManager() { }
+
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject); 
+        }
+    }
+
+    public static SelectionManager Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+
     [SerializeField] SelectionPlaceholder[] generators = new SelectionPlaceholder[] { };
     [SerializeField] int attempt = 0;
     [SerializeField] int attemptCap = 8;

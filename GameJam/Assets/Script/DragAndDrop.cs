@@ -2,16 +2,41 @@ using UnityEngine;
 
 public class DragAndDrop : MonoBehaviour
 {
+    private static DragAndDrop _instance = null;
+    private DragAndDrop() { }
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this; 
+            DontDestroyOnLoad(this.gameObject); 
+        }
+        else
+        {
+            Destroy(this.gameObject); 
+        }
+    }
+
+    public static DragAndDrop Instance
+    {
+        get
+        {
+            return _instance;
+        }
+    }
+
     [SerializeField] private Vector3 startPosition;
     private bool isDragging;
     private bool isOverDraggableObj;
     [SerializeField] private GameObject currentDraggingTarget;
     [SerializeField] private string targetTag = "Block";
+    private bool isPlaced;
 
     private void Start()
     {
         startPosition = transform.position;
         isDragging = false;
+        isPlaced = false;
     }
 
     private void OnMouseDown()
@@ -33,6 +58,7 @@ public class DragAndDrop : MonoBehaviour
     {
         BlockManager _manager = currentDraggingTarget.GetComponent<BlockManager>();
         currentDraggingTarget.transform.position = (_manager.IsPlacable()) ? _manager.GetTargetCenterPostiton() : startPosition;
+        isPlaced = _manager.IsPlacable();
         currentDraggingTarget = null;
         isDragging = false;
     }
@@ -84,5 +110,20 @@ public class DragAndDrop : MonoBehaviour
 
         currentDraggingTarget = null;
         return false; // The mouse is not over any GameObject with the target tag
+    }
+
+    public bool IsDragging
+    {
+        get { return isDragging; }
+    }
+
+    public bool IsPlaced()
+    {
+        return isPlaced;
+    }
+
+    public void SetPlaced(bool _val)
+    {
+        isPlaced = _val;
     }
 }
