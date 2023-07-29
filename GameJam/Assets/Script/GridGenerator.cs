@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-[ExecuteInEditMode]
 public class GridGenerator : MonoBehaviour
 {
      private static GridGenerator instance;
@@ -26,7 +25,7 @@ public class GridGenerator : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    [SerializeField] private bool generateGrid;
+    [SerializeField] private bool generateGrid = true;
     [SerializeField] private GameObject unitGrid;
     [SerializeField] public const int gridSize_x = 9;
     [SerializeField] public const int gridSize_y = 18;

@@ -29,8 +29,8 @@ public class SelectionManager : MonoBehaviour
     }
 
     [SerializeField] SelectionPlaceholder[] generators = new SelectionPlaceholder[] { };
-    [SerializeField] int attempt = 0;
-    [SerializeField] int attemptCap = 8;
+    [SerializeField] public int attempt = 0;
+    [SerializeField] public int attemptCap = 8;
 
     public void AddAttempt()
     {
