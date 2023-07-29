@@ -44,7 +44,6 @@ public class PathfindingControl : MonoBehaviour
     private Node startNode; // Set this reference to your starting node
     private Node destinationNode; // Set this reference to your destination node
     private List<Node> checkpoints = new List<Node>();
-    private int checkpointCount = 1;
 
     // Use this method to initiate the pathfinding process and get the path list
     private void FindAndPrintPath()

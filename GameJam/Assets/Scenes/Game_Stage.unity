@@ -2372,12 +2372,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213494312}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3b2368e0b5e3aa4a9a1fcb602531390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generateGrid: 0
+  generateGrid: 1
   unitGrid: {fileID: 5026528254130866164, guid: 0cbab541c6ca319478261bb072f6fdb3, type: 3}
   gridGap: 1.05
   Generated:
