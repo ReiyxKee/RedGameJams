@@ -27,9 +27,12 @@ public class SelectionPlaceholder : MonoBehaviour
 
         if (DragAndDrop.Instance.IsPlaced())
         {
-            blockGenerated = false;
-            SelectionManager.Instance.AddAttempt();
-            DragAndDrop.Instance.SetPlaced(false);
+            if(currentBlock.transform.position != this.transform.position)
+            {
+                blockGenerated = false;
+                SelectionManager.Instance.AddAttempt();
+                DragAndDrop.Instance.SetPlaced(false);
+            }
         }
     }
 
