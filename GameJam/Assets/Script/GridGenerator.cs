@@ -5,13 +5,13 @@ using UnityEngine.UI;
 
 public class GridGenerator : MonoBehaviour
 {
-     private static GridGenerator instance;
-     public static GridGenerator Instance
+    private static GridGenerator instance;
+    public static GridGenerator Instance
     {
         get { return instance; }
     }
 
-      private void Awake()
+    private void Awake()
     {
         if (instance != null && instance != this)
         {
@@ -22,6 +22,14 @@ public class GridGenerator : MonoBehaviour
         instance = this;
 
         DontDestroyOnLoad(gameObject);
+
+        if (generateGrid)
+        {
+            gridArrays = new GameObject[gridSize_x, gridSize_y];
+            RemoveGeneratedGrid();
+            GenerateGrid();
+            generateGrid = false;
+        }
     }
 
     [SerializeField] private bool generateGrid = true;
@@ -30,29 +38,18 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] public const int gridSize_y = 18;
     [SerializeField] private float gridGap;
     protected int gridBorder = 0;
-    [SerializeField] private GameObject[,] gridArrays = new GameObject[9,18] { { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null } };
+    [SerializeField] private GameObject[,] gridArrays = new GameObject[9, 18] { { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null } };
     [SerializeField] List<GameObject> Generated = new List<GameObject>();
     [SerializeField] Node[,] nodeArray = new Node[gridSize_x, gridSize_y];
 
-    public bool GetGenerateGrid() 
+    public bool GetGenerateGrid()
     {
-        return generateGrid; 
-    }
-
-    private void Update()
-    {
-       if (generateGrid)
-        {
-            gridArrays = new GameObject[gridSize_x , gridSize_y];
-            RemoveGeneratedGrid();
-            GenerateGrid();
-            generateGrid = false;
-        }
+        return generateGrid;
     }
 
     private void RemoveGeneratedGrid()
     {
-        foreach(GameObject g in Generated)
+        foreach (GameObject g in Generated)
         {
             DestroyImmediate(g);
         }
@@ -67,7 +64,7 @@ public class GridGenerator : MonoBehaviour
         {
             for (int j = 0; j < gridSize_y; j++)
             {
-                Vector2 localLocation = new Vector2(i * gridGap,j * gridGap);
+                Vector2 localLocation = new Vector2(i * gridGap, j * gridGap);
                 GameObject _unit = Instantiate(unitGrid);
                 _unit.name = "Grid_" + i.ToString() + "_" + j.ToString();
                 _unit.transform.parent = this.transform;
@@ -75,12 +72,12 @@ public class GridGenerator : MonoBehaviour
 
                 _unit.AddComponent<Node>();
 
-                if (isBorder(i,j))
+                if (isBorder(i, j))
                 {
                     _unit.GetComponent<SpriteRenderer>().color = Color.clear;
                 }
 
-                gridArrays[i,j] = _unit;
+                gridArrays[i, j] = _unit;
 
                 Generated.Add(_unit);
             }
@@ -91,28 +88,28 @@ public class GridGenerator : MonoBehaviour
 
     private void AutoAssignNeightbour()
     {
-        for(int i = 0; i < gridSize_x; i++)
+        for (int i = 0; i < gridSize_x; i++)
         {
             for (int j = 0; j < gridSize_y; j++)
             {
-                if ( i - 1 >= 0)
+                if (i - 1 >= 0)
                 {
-                    gridArrays[i,j].GetComponent<Node>().AddNeightbour(gridArrays[i-1,j].GetComponent<Node>());
+                    gridArrays[i, j].GetComponent<Node>().AddNeightbour(gridArrays[i - 1, j].GetComponent<Node>());
                 }
 
                 if (i + 1 < gridSize_x)
                 {
-                    gridArrays[i,j].GetComponent<Node>().AddNeightbour(gridArrays[i + 1,j].GetComponent<Node>());
+                    gridArrays[i, j].GetComponent<Node>().AddNeightbour(gridArrays[i + 1, j].GetComponent<Node>());
                 }
 
                 if (j - 1 >= 0)
                 {
-                    gridArrays[i,j].GetComponent<Node>().AddNeightbour(gridArrays[i,j - 1].GetComponent<Node>());
+                    gridArrays[i, j].GetComponent<Node>().AddNeightbour(gridArrays[i, j - 1].GetComponent<Node>());
                 }
 
                 if (j + 1 < gridSize_y)
                 {
-                    gridArrays[i,j].GetComponent<Node>().AddNeightbour(gridArrays[i,j + 1].GetComponent<Node>());
+                    gridArrays[i, j].GetComponent<Node>().AddNeightbour(gridArrays[i, j + 1].GetComponent<Node>());
                 }
             }
         }
@@ -121,7 +118,8 @@ public class GridGenerator : MonoBehaviour
 
     public Node[,] GridArray
     {
-        get {
+        get
+        {
 
 
             for (int i = 0; i < gridSize_x; i++)
@@ -131,8 +129,8 @@ public class GridGenerator : MonoBehaviour
                     nodeArray[i, j] = gridArrays[i, j].GetComponent<Node>();
                 }
             }
-           
-            
+
+
             return nodeArray;
         }
     }
@@ -157,5 +155,26 @@ public class GridGenerator : MonoBehaviour
 
         return false;
     }
+    public Vector2 CenterPoint
+    {
+        get
+        {
+            // Get the position of the top-left corner of the grid (0, 0)
+            Vector2 topLeft = gridArrays[0, gridSize_y - 1].transform.position;
 
+            // Get the position of the top-right corner of the grid (gridSize_x - 1, 0)
+            Vector2 topRight = gridArrays[gridSize_x - 1, gridSize_y - 1].transform.position;
+
+            // Get the position of the bottom-left corner of the grid (0, gridSize_y - 1)
+            Vector2 bottomLeft = gridArrays[0, 0].transform.position;
+
+            // Get the position of the bottom-right corner of the grid (gridSize_x - 1, gridSize_y - 1)
+            Vector2 bottomRight = gridArrays[gridSize_x - 1, 0].transform.position;
+
+            // Calculate the center point of the grid
+            Vector2 centerPoint = (topLeft + topRight + bottomLeft + bottomRight) / 4f;
+
+            return centerPoint;
+        }
+    }
 }
