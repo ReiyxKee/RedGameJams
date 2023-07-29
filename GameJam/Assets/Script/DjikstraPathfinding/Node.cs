@@ -51,6 +51,15 @@ public class Node : MonoBehaviour
         {
             NeighbourNames += n.gameObject.name + " ";
         }
-        Debug.Log("I am " + this.gameObject.name + ". My Neightbours are: " + NeighbourNames);
+        //Debug.Log("I am " + this.gameObject.name + ". My Neightbours are: " + NeighbourNames);
+    }
+
+    private void OnMouseOver()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Debug.Log("Toggle Test");
+            PathfindingControl.Instance.ToggleCheckpoint(this);
+        }
     }
 }

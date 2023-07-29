@@ -18,9 +18,10 @@ public class Pathfinding
 
     private Pathfinding() { }
 
+
+
     private List<Node> checkpoints = new List<Node>();
 
-    // Method to add nodes as checkpoints
     public void AddCheckpoint(Node checkpointNode)
     {
         if (!checkpoints.Contains(checkpointNode))
@@ -28,6 +29,7 @@ public class Pathfinding
             checkpoints.Add(checkpointNode);
         }
     }
+
     public void RemoveCheckpoint(Node checkpointNode)
     {
         if (checkpoints.Contains(checkpointNode))
@@ -36,8 +38,35 @@ public class Pathfinding
         }
     }
 
+    public List<Node> FindShortestPath(Node startNode)
+    {
+        List<Node> finalPath = new List<Node>();
+
+        // Iterate through each checkpoint
+        for (int i = 0; i < checkpoints.Count; i++)
+        {
+            // Find the shortest path between the current checkpoint and the next one
+            List<Node> currentPath = FindShortestPath(startNode, checkpoints[i]);
+
+            // If there is a valid path between the checkpoints, add it to the final path
+            if (currentPath != null)
+            {
+                finalPath.AddRange(currentPath);
+                startNode = checkpoints[i]; // Set the next starting node to the current checkpoint
+            }
+            else
+            {
+                // If there is no valid path between checkpoints, return null
+                return null;
+            }
+        }
+
+        return finalPath;
+    }
+
     public static List<Node> FindShortestPath(Node startNode, Node destinationNode)
     {
+        Debug.Log(startNode.name);
         // Dictionary to store the shortest distance from the start node to each node
         Dictionary<Node, int> distances = new Dictionary<Node, int>();
 
@@ -69,7 +98,7 @@ public class Pathfinding
 
             visitedNodes.Add(currentNode);
 
-            foreach (Node neighbor in GetNeighbors(currentNode, allNodes))
+            foreach (Node neighbor in currentNode.GetNeighbors())
             {
                 if (!neighbor.IsWalkable() || visitedNodes.Contains(neighbor))
                     continue;
@@ -84,15 +113,15 @@ public class Pathfinding
         }
 
         // Reconstruct the path from the destination node to the start node
-        List<Node> shortestPath = new List<Node>();
+        List<Node> completePath = new List<Node>();
         Node current = destinationNode;
         while (current != null)
         {
-            shortestPath.Insert(0, current);
+            completePath.Insert(0, current);
             current = previousNodes[current];
         }
 
-        return shortestPath;
+        return completePath;
     }
 
     // Helper method to get the closest node that has not been visited yet
@@ -109,33 +138,6 @@ public class Pathfinding
             }
         }
         return closestNode;
-    }
-
-    // Method to find the neighbors of a node based on the 2D array of nodes
-    private static List<Node> GetNeighbors(Node node, Node[,] allNodes)
-    {
-        List<Node> neighbors = new List<Node>();
-        int x = Mathf.RoundToInt(node.transform.position.x);
-        int y = Mathf.RoundToInt(node.transform.position.y);
-
-        // Check all four directions (up, down, left, right)
-        int[] dx = { 0, 0, -1, 1 };
-        int[] dy = { -1, 1, 0, 0 };
-
-        for (int i = 0; i < dx.Length; i++)
-        {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-
-            if (nx >= 0 && nx < allNodes.GetLength(0) &&
-                ny >= 0 && ny < allNodes.GetLength(1))
-            {
-                Node neighborNode = allNodes[nx, ny];
-                neighbors.Add(neighborNode);
-            }
-        }
-
-        return neighbors;
     }
 
     // Method to count the number of steps required in the path
