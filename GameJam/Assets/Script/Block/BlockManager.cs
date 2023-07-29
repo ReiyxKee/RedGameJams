@@ -10,7 +10,12 @@ public class BlockManager : MonoBehaviour
     {
     }
 
-    bool IsPlacable()
+    public Vector3 GetTargetCenterPostiton()
+    {
+        return blockUnits[4].GetDetector().CurrentTarget().transform.position;
+    }
+
+    public bool IsPlacable()
     {
         foreach(BlockUnitPlaceholder _blockUnit in blockUnits)
         {

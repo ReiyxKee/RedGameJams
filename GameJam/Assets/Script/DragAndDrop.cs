@@ -25,18 +25,26 @@ public class DragAndDrop : MonoBehaviour
     {
         if (isDragging)
         {
-            // Reset the GameObject to its original position
-            currentDraggingTarget.transform.position = startPosition;
-            currentDraggingTarget = null;
-            isDragging = false;
+            OnEndDragging();
         }
+    }
+
+    private void OnEndDragging()
+    {
+        BlockManager _manager = currentDraggingTarget.GetComponent<BlockManager>();
+        currentDraggingTarget.transform.position = (_manager.IsPlacable()) ? _manager.GetTargetCenterPostiton() : startPosition;
+        currentDraggingTarget = null;
+        isDragging = false;
     }
 
     private void Update()
     {
         isOverDraggableObj = IsMouseOverDraggableObject();
+
         if (Input.GetKeyDown(KeyCode.Mouse0)) { OnMouseDown(); };
+
         if (Input.GetKeyUp(KeyCode.Mouse0)) { OnMouseUp(); };
+
         DragFunction();
     }
 
