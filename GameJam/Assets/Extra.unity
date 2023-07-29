@@ -4271,7 +4271,7 @@ MonoBehaviour:
   generateGrid: 0
   unitGrid: {fileID: 443788667878014723, guid: 821855466b7afe346a0fa7cfbb130b15, type: 3}
   gridSize: {x: 15, y: 5}
-  gridGap: 1.25
+  gridGap: 1
 --- !u!4 &1394857693
 Transform:
   m_ObjectHideFlags: 0
