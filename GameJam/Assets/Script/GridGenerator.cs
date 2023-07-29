@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+[ExecuteInEditMode]
 public class GridGenerator : MonoBehaviour
 {
      private static GridGenerator instance;
@@ -39,7 +40,6 @@ public class GridGenerator : MonoBehaviour
         return generateGrid; 
     }
 
-    [ExecuteInEditMode]
     private void Update()
     {
        if (generateGrid)

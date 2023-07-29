@@ -43,6 +43,8 @@ public class DragAndDrop : MonoBehaviour
     {
         if (!isOverDraggableObj) return;
 
+        if (SelectionManager.Instance.IsMaxAttempt()) return;
+
         StartDragging();
     }
 

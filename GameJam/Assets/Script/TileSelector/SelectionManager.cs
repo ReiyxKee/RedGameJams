@@ -39,7 +39,7 @@ public class SelectionManager : MonoBehaviour
 
     public bool IsMaxAttempt()
     {
-        return attempt < attemptCap;
+        return attempt >= attemptCap;
     }
 
     public void RefreshAll()

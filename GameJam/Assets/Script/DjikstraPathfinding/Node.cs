@@ -51,6 +51,6 @@ public class Node : MonoBehaviour
         {
             NeighbourNames += n.gameObject.name + " ";
         }
-        Debug.Log("I am " + this.gameObject.name + ". My Neightbours are: " + NeighbourNames);
+        //Debug.Log("I am " + this.gameObject.name + ". My Neightbours are: " + NeighbourNames);
     }
 }

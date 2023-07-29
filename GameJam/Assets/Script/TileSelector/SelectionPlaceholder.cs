@@ -23,8 +23,6 @@ public class SelectionPlaceholder : MonoBehaviour
             blockGenerated = true;
         }
 
-        Debug.Log(DragAndDrop.Instance.IsPlaced());
-
         if (DragAndDrop.Instance.IsPlaced())
         {
             if(currentBlock.transform.position != this.transform.position)
