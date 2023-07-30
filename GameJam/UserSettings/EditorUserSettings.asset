@@ -21,7 +21,11 @@ EditorUserSettings:
       value: 5155025101045c59095f082144205c4441154c2b7b7125657e7f4532e1b26068
       flags: 0
     RecentlyUsedSceneGuid-5:
+<<<<<<< HEAD
       value: 52550300550d0f0c0c5a5c2749710f4440161d73787d25637e704f35b4b5656c
+=======
+      value: 055757515c0459085b085b20497a0a4410154e7e7c712766782b1966e4b33139
+>>>>>>> origin/animation
       flags: 0
     vcSharedLogLevel:
       value: 0d5e400f0650
