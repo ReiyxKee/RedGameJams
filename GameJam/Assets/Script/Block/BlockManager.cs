@@ -19,7 +19,6 @@ public class BlockManager : MonoBehaviour
     {
         foreach(BlockUnitPlaceholder _blockUnit in blockUnits)
         {
-            Debug.Log(_blockUnit);
             if (!_blockUnit.GetDetector().IsPlaceable()) return false;
         }
 

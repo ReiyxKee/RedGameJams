@@ -13,6 +13,7 @@ public class ColorChangeOnCollision : MonoBehaviour
         originalColor = GetComponent<SpriteRenderer>().color; 
     }
 
+
     public void ChangeToHoverColor()
     {
         GetComponent<SpriteRenderer>().color = isCollidingWithBlock ? hoverColor : originalColor;
@@ -42,5 +43,9 @@ public class ColorChangeOnCollision : MonoBehaviour
 
     private void Update()
     {
+        if(GetComponent<SpriteRenderer>().color != hoverColor)
+        {
+            originalColor = GetComponent<SpriteRenderer>().color;
+        }
     }
 }
