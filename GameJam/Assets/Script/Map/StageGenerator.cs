@@ -28,25 +28,71 @@ public class StageGenerator : MonoBehaviour
 
     [SerializeField] private Transform MapParent;
     [SerializeField] private Transform MapOffsetPos;
-    [SerializeField] private Transform TargetLocation;
+
+    [SerializeField] private LocationInfo StartLocation;
+    [SerializeField] private LocationInfo TargetLocation;
+
     [SerializeField] private List<LocationInfo> LocationsInRange = new List<LocationInfo>();
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetNewStage();
+        }
+
+        if (StartLocation && TargetLocation)
+        {
+            if (StartLocation.collidedGrid && TargetLocation.collidedGrid)
+            {
+                if(StartLocation.collidedGrid.GetComponent<SpriteRenderer>().color != Color.yellow || TargetLocation.collidedGrid.GetComponent<SpriteRenderer>().color != Color.red)
+                {
+                    RefreshGrid();
+                    StartLocation.collidedGrid.GetComponent<SpriteRenderer>().color = Color.yellow;
+                    TargetLocation.collidedGrid.GetComponent<SpriteRenderer>().color = Color.red;
+                }
+            }
+        }
+    }
+
+    void GetNewStage()
+    {
+        RefreshGrid();
+        SetOffset();
+        SelectDestinationFromLocationInRange();
+    }
+
+    public void SetOffset() 
+    {
+        RangeInfo rangeInfo = MapRange.Instance.rangeInfo;
+        Vector2 viewportSize = GridGenerator.Instance.Range;
+
+        Vector2 min = MapRange.Instance.Min;
+        Vector2 max = MapRange.Instance.Max;
+
+        float minX = min.x + (viewportSize.x/2);
+        float minY = min.y - (viewportSize.y/2);
+
+        float maxX = max.x + (viewportSize.x/2);
+        float maxY = max.y + (viewportSize.y/2);
+
+        float randomX = Random.Range(minX, maxX);
+        float randomY = Random.Range(minY, maxY);
+
+        Vector2 randomPosition = new Vector2(randomX, randomY);
+
+        Debug.Log(min + " " + max + " " + randomPosition);
+
+        MapOffsetPos.position = randomPosition;
+
+        AdjustMapPos();
+    }
+    
     public void AdjustMapPos()
     {
         Vector2 offSetDistance = (Vector2)(MapParent.position - MapOffsetPos.position);
         MapParent.position = (Vector2)(GridGenerator.Instance.CenterPoint) + offSetDistance;
-    }
-
-    bool test = true;
-    private void Update()
-    {
-
-        if (test)
-        {
-            RefreshGrid();
-            AdjustMapPos();
-            SelectDestinationFromLocationInRange();
-            test = false;
-        }
     }
 
     void RefreshGrid()
@@ -63,24 +109,55 @@ public class StageGenerator : MonoBehaviour
 
     void SelectDestinationFromLocationInRange()
     {
+        StartLocation = null;
+
+        TargetLocation = null;
+
+        LocationsInRange.Clear();
+
         Vector2 offSetDistance = (Vector2)(MapParent.position - MapOffsetPos.position);
         Vector2 _from = (Vector2)((GridGenerator.Instance.CenterPoint) + (GridGenerator.Instance.Range / 2));
         Vector2 _to = (Vector2)((GridGenerator.Instance.CenterPoint) - (GridGenerator.Instance.Range / 2));
-        LocationsInRange = MapRange.Instance.GetLocationInRange(_from, _to);
 
-        if (LocationsInRange.Count > 0)
+        try
         {
-            int _randIndex = Random.Range(0, LocationsInRange.Count);
-
-            TargetLocation = LocationsInRange[_randIndex].collidedGrid;
-
-            TargetLocation.GetComponent<SpriteRenderer>().color = Color.blue;
-
-            Debug.Log(_randIndex + " " + TargetLocation);
+            LocationsInRange.AddRange(MapRange.Instance.GetLocationInRange(_from, _to));
         }
-        else
+        catch
         {
-            TargetLocation = null;
+            Debug.Log("Error");
+        }
+        finally
+        {
+
+            if (LocationsInRange.Count == 2)
+            {
+                StartLocation = LocationsInRange[0];
+
+                TargetLocation = LocationsInRange[1];
+            }
+            else if (LocationsInRange.Count > 2)
+            {
+                int _randIndex_1 = Random.Range(0, LocationsInRange.Count);
+
+                int _randIndex_2 = Random.Range(0, LocationsInRange.Count); ;
+
+                do
+                {
+                    _randIndex_2 = Random.Range(0, LocationsInRange.Count);
+                }
+                while (_randIndex_2 == _randIndex_1);
+
+                Debug.Log("Rand 1 " + _randIndex_1 + " 2 " + _randIndex_2);
+
+                StartLocation = LocationsInRange[_randIndex_1];
+
+                TargetLocation = LocationsInRange[_randIndex_2];
+            }
+            else
+            {
+                GetNewStage();
+            }
         }
     }
 

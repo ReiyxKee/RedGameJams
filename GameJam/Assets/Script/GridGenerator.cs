@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//[ExecuteInEditMode]
 public class GridGenerator : MonoBehaviour
 {
     private static GridGenerator instance;
@@ -34,11 +35,11 @@ public class GridGenerator : MonoBehaviour
 
     [SerializeField] private bool generateGrid = true;
     [SerializeField] private GameObject unitGrid;
-    [SerializeField] public const int gridSize_x = 9;
+    [SerializeField] public const int gridSize_x = 12;
     [SerializeField] public const int gridSize_y = 18;
     [SerializeField] private float gridGap;
     protected int gridBorder = 0;
-    [SerializeField] private GameObject[,] gridArrays = new GameObject[9, 18] { { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null } };
+    [SerializeField] private GameObject[,] gridArrays = new GameObject[12, 18];
     [SerializeField] List<GameObject> Generated = new List<GameObject>();
     [SerializeField] Node[,] nodeArray = new Node[gridSize_x, gridSize_y];
 
@@ -121,7 +122,6 @@ public class GridGenerator : MonoBehaviour
         get
         {
 
-
             for (int i = 0; i < gridSize_x; i++)
             {
                 for (int j = 0; j < gridSize_y; j++)
@@ -200,5 +200,9 @@ public class GridGenerator : MonoBehaviour
 
             return range;
         }
+    }
+
+    private void Update()
+    {
     }
 }

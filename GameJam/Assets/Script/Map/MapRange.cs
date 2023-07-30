@@ -71,7 +71,7 @@ public class MapRange : MonoBehaviour
     {
         get
         {
-            return rangeInfo;
+            return _rangeInfo;
         }
     }
 
@@ -88,19 +88,20 @@ public class MapRange : MonoBehaviour
         }
     }
 
+    List<LocationInfo> _tempLocationInRange = new List<LocationInfo>();
     public List<LocationInfo> GetLocationInRange(Vector2 _r_From, Vector2 _r_To)
     {
-        List<LocationInfo> _locationInRange = new List<LocationInfo>();
+        _tempLocationInRange.Clear();
 
         foreach (LocationInfo loc in locations)
         {
             if (checkCustomCoordinate(loc.transform.position, _r_From, _r_To))
             {
-                _locationInRange.Add(loc);
+                _tempLocationInRange.Add(loc);
             }
         }
 
-        return _locationInRange;
+        return _tempLocationInRange;
     }
 
     bool checkCustomCoordinate(Vector2 target, Vector2 _r_From, Vector2 _r_To)
@@ -128,6 +129,22 @@ public class MapRange : MonoBehaviour
 
         return true;
     }
+
+    public Vector2 Min
+    {
+        get
+        {
+            return r_TopLeft.transform.position;
+        }
+    }
+
+    public Vector2 Max
+    {
+        get
+        {
+            return r_BtmRight.transform.position;
+        }
+    }
 }
 
 [System.Serializable]
@@ -149,6 +166,7 @@ public class RangeInfo
 
         range = new Vector2(Mathf.Abs(point_TL.x - point_BR.x), Mathf.Abs(point_TL.y - point_BR.y));
     }
+
 
     public float Width
     {
