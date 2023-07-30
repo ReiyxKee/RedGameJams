@@ -16,6 +16,5 @@ public class UI_Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        attemptText.text = "Attempts: " + SelectionManager.Instance.attempt.ToString() + " / " + SelectionManager.Instance.attemptCap.ToString();
     }
 }

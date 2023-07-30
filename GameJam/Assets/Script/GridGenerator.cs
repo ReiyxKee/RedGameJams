@@ -36,10 +36,10 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private bool generateGrid = true;
     [SerializeField] private GameObject unitGrid;
     [SerializeField] public const int gridSize_x = 12;
-    [SerializeField] public const int gridSize_y = 18;
+    [SerializeField] public const int gridSize_y = 22;
     [SerializeField] private float gridGap;
     protected int gridBorder = 0;
-    [SerializeField] private GameObject[,] gridArrays = new GameObject[12, 18];
+    [SerializeField] private GameObject[,] gridArrays = new GameObject[12, 22];
     [SerializeField] List<GameObject> Generated = new List<GameObject>();
     [SerializeField] Node[,] nodeArray = new Node[gridSize_x, gridSize_y];
 

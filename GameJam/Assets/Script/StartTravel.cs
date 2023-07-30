@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StartTravel : MonoBehaviour
-{   
+{
+    public GameObject WinWindow;
+    public GameObject RestartWindow;
     // Static reference to the instance of the singleton
     private static StartTravel instance;
 
+    private bool time = false;
+    public float timer = 8;
     // Public access to the singleton instance
     public static StartTravel Instance
     {
@@ -19,6 +23,17 @@ public class StartTravel : MonoBehaviour
 
     private void Update()
     {
+        if (time)
+        {
+            timer -= Time.deltaTime;
+
+            if (timer <= 0)
+            {
+                StopAllCoroutines();
+                RestartWindow.SetActive(true);
+                time = false;
+            }
+        }
     }
 
 
@@ -43,6 +58,7 @@ public class StartTravel : MonoBehaviour
     private void StartMovement()
     {
         charaTransform = Chara.transform;
+        time = true;
         StartCoroutine(MoveCharaThroughPositions());
     }
 
@@ -60,5 +76,7 @@ public class StartTravel : MonoBehaviour
         }
 
         Debug.Log("Chara reached all positions.");
+        time = false;
+        WinWindow.SetActive(true);
     }
 }
