@@ -8,12 +8,12 @@ public class DragAndDrop : MonoBehaviour
     {
         if (_instance == null)
         {
-            _instance = this; 
-            DontDestroyOnLoad(this.gameObject); 
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
-            Destroy(this.gameObject); 
+            Destroy(this.gameObject);
         }
     }
 
@@ -31,6 +31,7 @@ public class DragAndDrop : MonoBehaviour
     [SerializeField] private GameObject currentDraggingTarget;
     [SerializeField] private string targetTag = "block";
     [SerializeField] private bool isPlaced;
+    [SerializeField] private bool isCheckedWalk;
 
     private void Start()
     {
@@ -61,6 +62,7 @@ public class DragAndDrop : MonoBehaviour
         BlockManager _manager = currentDraggingTarget.GetComponent<BlockManager>();
         currentDraggingTarget.transform.position = (_manager.IsPlacable()) ? _manager.GetTargetCenterPostiton() : startPosition;
         isPlaced = _manager.IsPlacable();
+        isCheckedWalk = true;
         _manager.UpdateNode();
         currentDraggingTarget = null;
         isDragging = false;
@@ -125,6 +127,19 @@ public class DragAndDrop : MonoBehaviour
     public bool IsPlaced()
     {
         return isPlaced;
+    }
+
+    public bool IsWalkCheck
+    {
+        get
+        {
+            return isCheckedWalk;
+        }
+    }
+
+    public void CheckedWalk()
+    {
+        isCheckedWalk = false;
     }
 
     public void SetPlaced(bool _val)

@@ -3,7 +3,7 @@ using UnityEngine;
 public class ColorChangeOnCollision : MonoBehaviour
 {
     [SerializeField] private Color hoverColor; // The color to change to when colliding with a block.
-    [SerializeField] private Color originalColor; // The original color of the GameObject.
+    [SerializeField] public Color originalColor; // The original color of the GameObject.
     private bool isCollidingWithBlock; // Flag to track if colliding with a "block" GameObject.
 
     [SerializeField] private string targetTag = "detector";

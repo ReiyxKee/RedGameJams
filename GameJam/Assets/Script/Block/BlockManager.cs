@@ -8,6 +8,7 @@ public class BlockManager : MonoBehaviour
 
     private void Update()
     {
+        UpdateNode();
     }
 
     public Vector3 GetTargetCenterPostiton()
@@ -17,7 +18,7 @@ public class BlockManager : MonoBehaviour
 
     public bool IsPlacable()
     {
-        foreach(BlockUnitPlaceholder _blockUnit in blockUnits)
+        foreach (BlockUnitPlaceholder _blockUnit in blockUnits)
         {
             if (!_blockUnit.GetDetector().IsPlaceable()) return false;
         }
@@ -27,18 +28,12 @@ public class BlockManager : MonoBehaviour
 
     public void UpdateNode()
     {
-        foreach (BlockUnitPlaceholder _blockUnit in blockUnits)
-        {
-            if (_blockUnit.GetDetector().CurrentTarget() != null)
-            {
-                Node _node = _blockUnit.GetDetector().CurrentTarget().GetComponent<Node>();
-
-                if (_node)
-                {
-                    _node.UpdateWalkability(true);
-                }
-            }
-        }
+        //foreach (BlockUnitPlaceholder _blockUnit in blockUnits)
+        //{
+        //    if (_blockUnit.IsActiveUnit())
+        //    {
+        //        _blockUnit.GetDetector().CurrentTarget()?.transform.GetComponent<Node>()?.UpdateWalkability(true);
+        //    }
+        //}
     }
-
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEditor;
 using TMPro;
 
@@ -17,12 +18,14 @@ public class LocationInfo : MonoBehaviour
     {
         if (this.transform.Find("NameTag"))
         {
+            this.GetComponentInChildren<Canvas>().sortingOrder = -1;
             this.GetComponentInChildren<TextMeshProUGUI>().text = locationName.ToUpper();
         }
         else
         {
             GameObject obj = Instantiate(NameTagPrefab, this.transform);
             obj.name = "NameTag";
+            obj.GetComponentInChildren<Canvas>().sortingOrder = -1;
             obj.GetComponentInChildren<TextMeshProUGUI>().text = locationName.ToUpper();
         }
     }

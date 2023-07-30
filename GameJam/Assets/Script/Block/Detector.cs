@@ -46,7 +46,7 @@ public class Detector : MonoBehaviour
 
     public GameObject CurrentTarget()
     {
-        return collidedTarget;
+        return collidedTarget ? collidedTarget : null;
     }
 
     public bool IsActivatedUnit()

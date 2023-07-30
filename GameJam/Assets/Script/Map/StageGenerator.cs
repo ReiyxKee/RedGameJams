@@ -34,12 +34,14 @@ public class StageGenerator : MonoBehaviour
 
     [SerializeField] private List<LocationInfo> LocationsInRange = new List<LocationInfo>();
 
+    public bool Init = false;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (!Init)
         {
             GetNewStage();
+            Init = true;
         }
 
         if (StartLocation && TargetLocation)
@@ -153,6 +155,8 @@ public class StageGenerator : MonoBehaviour
                 StartLocation = LocationsInRange[_randIndex_1];
 
                 TargetLocation = LocationsInRange[_randIndex_2];
+
+                StartTravel.Instance.Chara.transform.position = StartLocation.transform.position;
             }
             else
             {
@@ -165,7 +169,14 @@ public class StageGenerator : MonoBehaviour
     {
         get
         {
-            return TargetLocation.GetComponent<Node>();
+            return TargetLocation.collidedGrid.GetComponent<Node>();
+        }
+    }
+    public Node Start
+    {
+        get
+        {
+            return StartLocation.collidedGrid.GetComponent<Node>();
         }
     }
 }

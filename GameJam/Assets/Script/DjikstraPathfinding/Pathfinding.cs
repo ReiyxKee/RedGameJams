@@ -100,7 +100,7 @@ public class Pathfinding
 
             foreach (Node neighbor in currentNode.GetNeighbors())
             {
-                if (!neighbor.IsWalkable() || visitedNodes.Contains(neighbor))
+                if (visitedNodes.Contains(neighbor))
                     continue;
 
                 int tentativeDistance = distances[currentNode] + currentNode.GetDistanceToNode(neighbor);

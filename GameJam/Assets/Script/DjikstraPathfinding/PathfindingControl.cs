@@ -43,10 +43,10 @@ public class PathfindingControl : MonoBehaviour
 
     private Node startNode; // Set this reference to your starting node
     private Node destinationNode; // Set this reference to your destination node
-    private List<Node> checkpoints = new List<Node>();
+    [SerializeField] private List<Node> checkpoints = new List<Node>();
 
     // Use this method to initiate the pathfinding process and get the path list
-    private void FindAndPrintPath()
+    public List<Node> FindAndPrintPath()
     {
         Node[,] gridArray = GridGenerator.Instance.GridArray;
 
@@ -55,15 +55,13 @@ public class PathfindingControl : MonoBehaviour
             node.SetAssignmentState(true);
         }
 
-        startNode = gridArray[0,4];
+        startNode = StageGenerator.Instance.Start;
         destinationNode = StageGenerator.Instance.Destination;
 
-        //ensure destination node is at the last checkpoint
-        if(checkpoints.Contains(destinationNode) && checkpoints.IndexOf(destinationNode) != checkpoints.Count - 1)
-        {
-            checkpoints.Remove(destinationNode);
-            checkpoints.Add(destinationNode);
-        }
+        Debug.Log(startNode);
+        Debug.Log(destinationNode);
+
+        checkpoints.Add(destinationNode);
 
         // Create a list to store the complete path
         List<Node> completePath = new List<Node>();
@@ -79,27 +77,26 @@ public class PathfindingControl : MonoBehaviour
             completePath.AddRange(segmentPath.GetRange(1, segmentPath.Count - 1));
         }
 
-        // Add the destination node at the end of the path
-        completePath.Add(destinationNode);
-
         // Print the names of the nodes in the complete path
         string resultPath = "Complete Path: ";
 
-        foreach (var node in completePath)
+        foreach (Node node in completePath)
         {
-             resultPath += (node.gameObject.name) + " -> ";
+            resultPath += (node.transform.name) + " -> ";
             node.transform.GetComponent<SpriteRenderer>().color = Color.green;
         }
 
         Debug.Log(resultPath);
 
-        // Get the number of steps required in the complete path
-        int stepsRequired = Pathfinding.CountStepsInPath(completePath);
-        Debug.Log("Steps Required: " + stepsRequired);
+        //// Get the number of steps required in the complete path
+        //int stepsRequired = Pathfinding.CountStepsInPath(completePath);
+        //Debug.Log("Steps Required: " + stepsRequired);
 
-        // Calculate the outcome of the shortest route
-        float outcome = CalculateOutcome(completePath);
-        Debug.Log("Outcome of Shortest Route: " + outcome);
+        //// Calculate the outcome of the shortest route
+        //float outcome = CalculateOutcome(completePath);
+        //Debug.Log("Outcome of Shortest Route: " + outcome);
+
+        return completePath;
     }
 
     private float CalculateOutcome(List<Node> path)
@@ -134,7 +131,6 @@ public class PathfindingControl : MonoBehaviour
     {
         if (checkpoints.Contains(_targetNode))
         {
-
             Debug.Log("Already Exist, Remove Checkpoint " + _targetNode.name);
             _targetNode.transform.GetComponent<SpriteRenderer>().color = Color.white;
             RemoveCheckpoint(_targetNode);
@@ -149,10 +145,11 @@ public class PathfindingControl : MonoBehaviour
     void Update()
     {
         // Example usage to test the FindAndPrintPath method
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             FindAndPrintPath();
         }
     }
+
 
 }
