@@ -90,6 +90,7 @@ public class DragAndDrop : MonoBehaviour
 
     private void StartDragging()
     {
+        isPlaced = false;
         isDragging = true;
     }
 
