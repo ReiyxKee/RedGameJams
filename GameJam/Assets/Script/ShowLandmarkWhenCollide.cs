@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ShowLandmarkWhenCollide : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Landmark")
+        if (collision.transform.tag == "player")
         {
-            collision.transform.GetComponent<Animator>();
+            this.GetComponent<Animator>().SetTrigger("Show");
         }
     }
 }
