@@ -3,8 +3,14 @@ using System.Collections.Generic; // Add this line to import List
 
 public class Node : MonoBehaviour
 {
-    private bool isWalkable = true;
+    private bool isWalkable = false;
+    private bool isAssignment = false;
     [SerializeField] private List<Node> neighbors = new List<Node>();
+
+    private void Start()
+    {
+        Reset();
+    }
 
     public Node()
     {
@@ -40,27 +46,44 @@ public class Node : MonoBehaviour
         neighbors.Add(_neighbour);
     }
 
-    private void Update()
-    {
-    }
-    private void OnMouseEnter()
-    {
-        string NeighbourNames = "";
-       
-        foreach (Node n in neighbors)
-        {
-            NeighbourNames += n.gameObject.name + " ";
-        }
-        //Debug.Log("I am " + this.gameObject.name + ". My Neightbours are: " + NeighbourNames);
+    //private void OnMouseEnter()
+    //{
+    //    string NeighbourNames = "";
 
+    //    foreach (Node n in neighbors)
+    //    {
+    //        NeighbourNames += n.gameObject.name + " ";
+    //    }
+    //   Debug.Log("I am " + this.gameObject.name + ". My Neightbours are: " + NeighbourNames);
+    //}
+
+    //private void OnMouseOver()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Mouse0))
+    //    {
+    //        Debug.Log("Toggle Test");
+    //        PathfindingControl.Instance.ToggleCheckpoint(this);
+    //    }
+    //}
+    public void Reset()
+    {
+        isWalkable = false;
+        isAssignment = false;
     }
 
-    private void OnMouseOver()
+    public void SetAssignmentState(bool set)
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            Debug.Log("Toggle Test");
-            PathfindingControl.Instance.ToggleCheckpoint(this);
-        }
+        isAssignment = set;
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!isAssignment) return;
+
+        if (!isWalkable) return;
+
+        if (collision.tag != "location") return;
+
+        PathfindingControl.Instance.ToggleCheckpoint(this);
     }
 }

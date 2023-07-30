@@ -41,7 +41,7 @@ public class MapRange : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -80,12 +80,40 @@ public class MapRange : MonoBehaviour
         locationInRange = new List<LocationInfo>();
 
         foreach (LocationInfo loc in locations)
-        {   
+        {
             if (checkCoordinate(loc.transform.position))
             {
                 locationInRange.Add(loc);
             }
         }
+    }
+
+    public List<LocationInfo> GetLocationInRange(Vector2 _r_From, Vector2 _r_To)
+    {
+        List<LocationInfo> _locationInRange = new List<LocationInfo>();
+
+        foreach (LocationInfo loc in locations)
+        {
+            if (checkCustomCoordinate(loc.transform.position, _r_From, _r_To))
+            {
+                _locationInRange.Add(loc);
+            }
+        }
+
+        return _locationInRange;
+    }
+
+    bool checkCustomCoordinate(Vector2 target, Vector2 _r_From, Vector2 _r_To)
+    {
+        if (target.x < _r_From.x) return false;
+
+        if (target.x > _r_To.x) return false;
+
+        if (target.y > _r_From.y) return false;
+
+        if (target.y < _r_To.y) return false;
+
+        return true;
     }
 
     bool checkCoordinate(Vector2 target)

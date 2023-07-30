@@ -26,11 +26,11 @@ public class DragAndDrop : MonoBehaviour
     }
 
     [SerializeField] private Vector3 startPosition;
-    private bool isDragging;
-    private bool isOverDraggableObj;
+    [SerializeField] private bool isDragging;
+    [SerializeField] private bool isOverDraggableObj;
     [SerializeField] private GameObject currentDraggingTarget;
-    [SerializeField] private string targetTag = "Block";
-    private bool isPlaced;
+    [SerializeField] private string targetTag = "block";
+    [SerializeField] private bool isPlaced;
 
     private void Start()
     {
@@ -61,6 +61,7 @@ public class DragAndDrop : MonoBehaviour
         BlockManager _manager = currentDraggingTarget.GetComponent<BlockManager>();
         currentDraggingTarget.transform.position = (_manager.IsPlacable()) ? _manager.GetTargetCenterPostiton() : startPosition;
         isPlaced = _manager.IsPlacable();
+        _manager.UpdateNode();
         currentDraggingTarget = null;
         isDragging = false;
     }
@@ -68,12 +69,12 @@ public class DragAndDrop : MonoBehaviour
     private void Update()
     {
         isOverDraggableObj = IsMouseOverDraggableObject();
-
         if (Input.GetKeyDown(KeyCode.Mouse0)) { OnMouseDown(); };
+
+        DragFunction();
 
         if (Input.GetKeyUp(KeyCode.Mouse0)) { OnMouseUp(); };
 
-        DragFunction();
     }
 
     private void DragFunction()
@@ -95,7 +96,6 @@ public class DragAndDrop : MonoBehaviour
     private bool IsMouseOverDraggableObject()
     {
         if (isDragging) return false;
-
         // Convert mouse position to world space
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -103,15 +103,17 @@ public class DragAndDrop : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
         // Check if the ray hits any collider with the target tag
-        if (hit.collider != null && hit.transform.CompareTag(targetTag))
+        if (hit.collider != null && hit.transform.tag == targetTag)
         {
             currentDraggingTarget = hit.transform.gameObject;
             startPosition = hit.transform.gameObject.transform.position;
-            return true; // The mouse is over a GameObject with the target tag
+            return true;
         }
-
-        currentDraggingTarget = null;
-        return false; // The mouse is not over any GameObject with the target tag
+        else
+        {
+            currentDraggingTarget = null;
+            return false;
+        }
     }
 
     public bool IsDragging

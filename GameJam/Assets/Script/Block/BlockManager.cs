@@ -19,10 +19,27 @@ public class BlockManager : MonoBehaviour
     {
         foreach(BlockUnitPlaceholder _blockUnit in blockUnits)
         {
+            Debug.Log(_blockUnit);
             if (!_blockUnit.GetDetector().IsPlaceable()) return false;
         }
 
         return true;
+    }
+
+    public void UpdateNode()
+    {
+        foreach (BlockUnitPlaceholder _blockUnit in blockUnits)
+        {
+            if (_blockUnit.GetDetector().CurrentTarget() != null)
+            {
+                Node _node = _blockUnit.GetDetector().CurrentTarget().GetComponent<Node>();
+
+                if (_node)
+                {
+                    _node.UpdateWalkability(true);
+                }
+            }
+        }
     }
 
 }

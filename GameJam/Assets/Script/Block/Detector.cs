@@ -13,7 +13,6 @@ public class Detector : MonoBehaviour
         {
             collidedTarget = _collision.transform.gameObject;
             placeable = true;
-
         }
         else
         {
@@ -21,6 +20,20 @@ public class Detector : MonoBehaviour
             placeable = false;
         }
     }
+    private void OnTriggerStay2D(Collider2D _collision)
+    {
+        if (_collision.transform.gameObject.tag == targetTag)
+        {
+            collidedTarget = _collision.transform.gameObject;
+            placeable = true;
+        }
+        else
+        {
+            collidedTarget = null;
+            placeable = false;
+        }
+    }
+
 
     private void OnTriggerExit2D(Collider2D _collision)
     {

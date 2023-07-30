@@ -50,8 +50,20 @@ public class PathfindingControl : MonoBehaviour
     {
         Node[,] gridArray = GridGenerator.Instance.GridArray;
 
-        startNode = checkpoints[0];
-        destinationNode = checkpoints[checkpoints.Count - 1];
+        foreach(Node node in gridArray)
+        {
+            node.SetAssignmentState(true);
+        }
+
+        startNode = gridArray[0,4];
+        destinationNode = StageGenerator.Instance.Destination;
+
+        //ensure destination node is at the last checkpoint
+        if(checkpoints.Contains(destinationNode) && checkpoints.IndexOf(destinationNode) != checkpoints.Count - 1)
+        {
+            checkpoints.Remove(destinationNode);
+            checkpoints.Add(destinationNode);
+        }
 
         // Create a list to store the complete path
         List<Node> completePath = new List<Node>();

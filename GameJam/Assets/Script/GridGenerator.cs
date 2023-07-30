@@ -59,7 +59,6 @@ public class GridGenerator : MonoBehaviour
 
     private void GenerateGrid()
     {
-
         for (int i = 0; i < gridSize_x; i++)
         {
             for (int j = 0; j < gridSize_y; j++)
@@ -69,6 +68,7 @@ public class GridGenerator : MonoBehaviour
                 _unit.name = "Grid_" + i.ToString() + "_" + j.ToString();
                 _unit.transform.parent = this.transform;
                 _unit.transform.localPosition = localLocation;
+                _unit.tag = "grid";
 
                 _unit.AddComponent<Node>();
 
@@ -155,6 +155,7 @@ public class GridGenerator : MonoBehaviour
 
         return false;
     }
+
     public Vector2 CenterPoint
     {
         get
@@ -175,6 +176,29 @@ public class GridGenerator : MonoBehaviour
             Vector2 centerPoint = (topLeft + topRight + bottomLeft + bottomRight) / 4f;
 
             return centerPoint;
+        }
+    }
+
+    public Vector2 Range
+    {
+        get
+        {
+            // Get the position of the top-left corner of the grid (0, 0)
+            Vector2 topLeft = gridArrays[0, gridSize_y - 1].transform.position;
+
+            // Get the position of the top-right corner of the grid (gridSize_x - 1, 0)
+            Vector2 topRight = gridArrays[gridSize_x - 1, gridSize_y - 1].transform.position;
+
+            // Get the position of the bottom-left corner of the grid (0, gridSize_y - 1)
+            Vector2 bottomLeft = gridArrays[0, 0].transform.position;
+
+            // Get the position of the bottom-right corner of the grid (gridSize_x - 1, gridSize_y - 1)
+            Vector2 bottomRight = gridArrays[gridSize_x - 1, 0].transform.position;
+
+            // Calculate the center point of the grid
+            Vector2 range = new Vector2(topLeft.x - bottomRight.x, topLeft.y - bottomRight.y);
+
+            return range;
         }
     }
 }
